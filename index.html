@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>使用WebRTC实现实时通信</title>
     <link rel="stylesheet" href="css/main.css" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-        body, html {
+        body,
+        html {
             height: 100%;
         }
 
@@ -19,6 +21,26 @@
             height: auto;
             width: auto;
         }
+
+        textarea {
+            color: #444;
+            font-size: 0.9em;
+            font-weight: 300;
+            height: 7.0em;
+            padding: 5px;
+            width: calc(100% - 10px);
+        }
+
+        div#sendReceive {
+            border-bottom: 1px solid #eee;
+            margin: 0;
+            padding: 0 0 10px 0;
+        }
+
+        div#sendReceive>div {
+            display: inline-block;
+            width: calc(50% - 20px);
+        }
     </style>
 </head>
 
@@ -31,6 +53,19 @@
         <button id="startButton">Start</button>
         <button id="callButton">Call</button>
         <button id="hangupButton">Hang Up</button>
+        <button id="sendTextButton">Send Text</button>
+    </div>
+
+    <div id="sendReceive">
+        <div id="send">
+            <h2>Send</h2>
+            <textarea id="dataChannelSend" disabled
+                placeholder="Press Start, enter some text, then press Send."></textarea>
+        </div>
+        <div id="receive">
+            <h2>Receive</h2>
+            <textarea id="dataChannelReceive" disabled></textarea>
+        </div>
     </div>
 
     <script src="js/lib/adapter.js"></script>

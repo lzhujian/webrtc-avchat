@@ -36,3 +36,25 @@ WebRTC节点之间建立连接只需要完成如下三步：
 
 3. 获取并分享本地和远端的描述信息: SDP格式的本地媒体的元数据
 
+![webrtc-offer-answer-model.png](https://github.com/lzhujian/webrtc-avchat/blob/master/images/webrtc-offer-answer-model.png)
+
+## 使用RTCDataChannel传输数据
+
+RTCDataChannel用于webrtc peer之间传输任意数据。Webrtc使用`RTCPeerConnection`的`createDataChannel()`来创建data channel, 对端peer将收到`RTCDataChannelEvent`消息，表示DataChannel已添加到PeerConnection连接。
+
+```javascript
+var pc = new RTCPeerConnection();
+var dc = pc.createDataChannel("my channel");
+
+dc.onmessage = function (event) {
+  console.log("received: " + event.data);
+};
+
+dc.onopen = function () {
+  console.log("datachannel open");
+};
+
+dc.onclose = function () {
+  console.log("datachannel close");
+};
+```

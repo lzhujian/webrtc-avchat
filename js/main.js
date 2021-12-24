@@ -21,9 +21,18 @@ let remoteStream;
 let localPeerConnection;
 let remotePeerConnection;
 
+// data channel
+var sendDataChannel;
+var recvDataChannel;
+
+// textarea
+var sendTextArea = document.querySelector('textarea#dataChannelSend');
+var recvTextArea = document.querySelector('textarea#dataChannelReceive');
+
 const startButton = document.getElementById("startButton");
 const callButton = document.getElementById("callButton");
 const hangupButton = document.getElementById("hangupButton");
+const sendTextButton = document.getElementById("sendTextButton");
 
 // 日志输出函数
 function trace(text) {
@@ -50,6 +59,21 @@ function gotRemoteMediaStream(event) {
 // 错误处理函数，将错误信息log到console
 function handleLocalMediaStreamError(error) {
     console.log('navigator.getUserMedia error: ', error);
+}
+
+function receiveChannelCallback(event) {
+    trace('Receive Channel Callback');
+
+    recvDataChannel = event.channel;
+    recvDataChannel.onmessage = function (event) {
+        recvTextArea.value = event.data;
+    };
+    recvDataChannel.onopen = function (e) {
+        trace("Receive channel opened.");
+    };
+    recvDataChannel.onclose = function (e) {
+        trace("Receive channel closed.");
+    };
 }
 
 // Start按钮操作，创建本地流
@@ -124,10 +148,27 @@ function callAction() {
 
     remotePeerConnection = new RTCPeerConnection(servers);
     remotePeerConnection.addEventListener('icecandidate', handleConnection);
+    // 监听 datachannel 事件
+    remotePeerConnection.ondatachannel = receiveChannelCallback;
+    // remotePeerConnection.addEventListener('datachannel', receiveChannelCallback);
     // 监听 addstream 事件
     remotePeerConnection.addEventListener('addstream', gotRemoteMediaStream);
 
     localPeerConnection.addStream(localStream);
+
+    // data channel
+    sendDataChannel = localPeerConnection.createDataChannel('testChannel');
+    sendDataChannel.onopen = function (e) {
+        trace('open dataChannelSend.');
+        sendTextArea.disabled = false;
+        sendTextButton.disabled = false;
+        sendTextArea.placeholder = '';
+    };
+    sendDataChannel.onclose = function (e) {
+        trace('dataChannelSend closed.');
+        sendTextArea.disabled = true;
+        sendTextButton.disabled = true;
+    }
 
     // only video
     const offerOptions = {
@@ -149,11 +190,19 @@ function hangupAction() {
     trace("Ending call....");
 }
 
+function sendTextAction() {
+    var text = sendTextArea.value;
+    sendDataChannel.send(text);
+    trace('Sent text: ' + text);
+}
+
 // 添加按钮响应事件
 startButton.addEventListener('click', startAction);
 callButton.addEventListener('click', callAction);
 hangupButton.addEventListener('click', hangupAction);
+sendTextButton.addEventListener('click', sendTextAction);
 
 // 按钮初始化状态
 callButton.disabled = true;
 hangupButton.disabled = true;
+sendTextButton.disabled = true;
