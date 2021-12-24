@@ -25,3 +25,14 @@ navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
         document.querySelector('video').srcObject = mediaStream;
     });
 ```
+
+## 使用RTCPeerConnection传输视频流
+
+WebRTC节点之间建立连接只需要完成如下三步：
+
+1. 创建RTCPeerConnection，并添加getUserMedia获取的流
+
+2. 获取并分享网络信息: 连接端点被称为ICE candidate
+
+3. 获取并分享本地和远端的描述信息: SDP格式的本地媒体的元数据
+

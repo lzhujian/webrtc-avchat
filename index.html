@@ -9,6 +9,11 @@
             height: 100%;
         }
 
+        button {
+            margin: 0 10px 20px 0;
+            width: 90px;
+        }
+
         video {
             background: none;
             height: auto;
@@ -18,11 +23,17 @@
 </head>
 
 <body>
-
     <h1>使用WebRTC实现实时通信</h1>
+    <video id="localVideo" autoplay playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
 
-    <video autoplay playsinline></video>
+    <div>
+        <button id="startButton">Start</button>
+        <button id="callButton">Call</button>
+        <button id="hangupButton">Hang Up</button>
+    </div>
 
+    <script src="js/lib/adapter.js"></script>
     <script src="js/main.js"></script>
 
 </body>
