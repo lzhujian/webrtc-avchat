@@ -12,3 +12,16 @@ Web实时通信（WebRTC）包含一系列协议、标准和JavaScript API，Web
 
 * RTCDataChannel: 应用数据通信
 
+## 从webcam获取视频流
+
+```javascript
+const mediaStreamConstraints = {
+    audio: false,
+    video: true
+};
+
+navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
+    .then(function (mediaStream) {
+        document.querySelector('video').srcObject = mediaStream;
+    });
+```
