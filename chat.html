@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>使用WebRTC实现实时通信</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        video {
+            background: none;
+            height: auto;
+            width: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>使用WebRTC实现实时通信</h1>
+    <video id="localVideo" autoplay playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+
+    <div>
+        <h2>信令日志：</h2>
+        <ul id="signalLogList"></ul>
+    </div>
+
+    <!-- <script src="js/lib/adapter.js"></script> -->
+    <!-- <script src='js/lib/socket.io.js'></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="js/chat.js"></script>
+
+</body>
+
+</html>
